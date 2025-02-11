@@ -40,3 +40,8 @@ You can take a look on Expo's [docs](https://docs.expo.dev).
 This template is released under the **[MIT License](LICENSE.md)**.
 
 Enjoy ✌🏽
+
+
+## Acknowledgements
+
+This project includes code generated with the help of GitHub Copilot, an AI-powered code completion tool.

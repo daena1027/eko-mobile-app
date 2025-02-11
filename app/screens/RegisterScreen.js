@@ -11,21 +11,30 @@ import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
-import { nameValidator } from "../helpers/nameValidator";
+import { firstNameValidator, lastNameValidator} from "../helpers/nameValidator";
+import {usernameValidator} from "../helpers/usernameValidator";
+ {/*imported usernameValidator*/}
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: "", error: "" });
+  const [firstName, setFirstName] = useState({ value: "", error: "" }); {/*added firstName state*/}
+  const [lastName, setLastName] = useState({ value: "", error: "" }); {/*added lastName state*/}
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const [username, setUsername] = useState({ value: "", error: "" }); {/*added username state*/}
 
   const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value);
+    const firstNameError = firstNameValidator(firstName.value); {/*added firstNameError variable*/}
+    const lastNameError = lastNameValidator(lastName.value);  {/*added lastNameError variable*/}
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
-    if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError });
+    const usernameError = usernameValidator(username.value); {/*added usernameError variable*/}
+
+    if (emailError || passwordError || firstNameError || lastNameError || usernameError) { /*added if statement to check for errors in username, first name, last name, email and password*/
+      setFirstName({ ...firstName, error: firstNameError }); {/*added setFirstName state updater function*/}
+      setLastName({ ...lastName, error: lastNameError }); {/*added setLastName state updater function*/}
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
+      setUsername({ ...username, error: usernameError }); {/*added setUsername state updater function*/}
       return;
     }
     navigation.reset({
@@ -33,20 +42,40 @@ export default function RegisterScreen({ navigation }) {
       routes: [{ name: "HomeScreen" }],
     });
   };
-
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Welcome.</Header>
+      <Header>Welcome to EKO!</Header> {/*Update the header from the source code "hello." to "Welcome to EKO!"*/}
+      <Text>Please create an account to continue.</Text> {/*added text "Please create an account to continue."*/}
       <TextInput
-        label="Name"
+        label="First Name"   
         returnKeyType="next"
-        value={name.value}
-        onChangeText={(text) => setName({ value: text, error: "" })}
-        error={!!name.error}
-        errorText={name.error}
+        value={firstName.value}
+        onChangeText={(text) => setFirstName({ value: text, error: "" })} 
+        error={!!firstName.error}
+        errorText={firstName.error}
+      /> 
+      <TextInput
+        label="Last Name"
+        returnKeyType="next"
+        value={lastName.value}
+        onChangeText={(text) => setLastName({ value: text, error: "" })}
+        error={!!lastName.error}
+        errorText={lastName.error}
       />
+      {/*added first name & last name  text input - the source code had one single field for Name*/}
+      <TextInput
+        label="Username"
+        returnKeyType="next"
+        value={username.value}
+        onChangeText={(text) => setUsername({ value: text, error: "" })} 
+        error={!!username.error}
+        errorText={username.error}
+        autoCapitalize="none"
+        autoCompleteType="username"
+      />
+      {/*added username text input*/}
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -71,12 +100,13 @@ export default function RegisterScreen({ navigation }) {
       <Button
         mode="contained"
         onPress={onSignUpPressed}
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 20 }}
       >
-        Next
+        Register 
+        {/* Update the button from the source code "Next" to "Register"*/}
       </Button>
       <View style={styles.row}>
-        <Text>I already have an account !</Text>
+        <Text>Already have an account?</Text> {/*Update the text from the source code "I already have an account !" to "Already have an account?"*/}
       </View>
       <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.replace("LoginScreen")}>

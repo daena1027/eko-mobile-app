@@ -7,6 +7,7 @@ import { theme } from "./app/core/theme";
 import {
   StartScreen,
   LoginScreen,
+  QuizScreen,
   RegisterScreen,
   ResetPasswordScreen,
   HomeScreen,
@@ -28,6 +29,7 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="QuizScreen" component={QuizScreen} /> 
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }) {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Hello.</Header>
+      <Header>Welcome!</Header> {/* Update the header from the source code "hello." to "Welcome!*/}
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -56,41 +56,47 @@ export default function LoginScreen({ navigation }) {
         errorText={password.error}
         secureTextEntry
       />
+      
+      <Button mode="contained" onPress={onLoginPressed}>
+        Log in
+      </Button>
+      {/*Moved login button from being below forgot password from the source code to above forgot password*/}
       <View style={styles.forgotPassword}>
         <TouchableOpacity
           onPress={() => navigation.navigate("ResetPasswordScreen")}
         >
-          <Text style={styles.forgot}>Forgot your password ?</Text>
+          <Text style={styles.forgot}>FORGOT PASSWORD?</Text> {/*Update the text from the source code "Forgot your password?" to "FORGOT PASSWORD?"*/}
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
-        Log in
-      </Button>
+
       <View style={styles.row}>
-        <Text>You do not have an account yet ?</Text>
+        <Text>Don't have an account yet?</Text> {/*Update the text from the source code "You do not have an account yet ?" to "Don't have an account yet?"*/}
       </View>
-      <View style={styles.row}>
-        <TouchableOpacity onPress={() => navigation.replace("RegisterScreen")}>
-          <Text style={styles.link}>Create !</Text>
-        </TouchableOpacity>
-      </View>
+      {/*removed source code : <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}> and added button below*/}
+      
+      <Button mode="contained" onPress={() => navigation.navigate("RegisterScreen")}>
+        Register
+      </Button>  {/*added button to register from the source code*/}
     </Background>
   );
 }
 
 const styles = StyleSheet.create({
+
   forgotPassword: {
     width: "100%",
-    alignItems: "flex-end",
-    marginBottom: 10,
-  },
+    alignItems: "center", /* Update the style from the source code alignItems: "flex-end",  to alignItems: "center" */
+    textDecorationLine: "underline", /* added textDecorationLine: "underline" */
+  }, 
   row: {
     flexDirection: "row",
-    marginTop: 4,
+    marginBottom: 10, /* changed marginBottom from 4 to 10 */
   },
   forgot: {
-    fontSize: 13,
+    fontSize: 12, /* added fontSize: 12 */
+    marginVertical: 15, /* added marginVertical: 15 */
     color: theme.colors.secondary,
+    textDecorationLine: "underline", /* added textDecorationLine: "underline" */
   },
   link: {
     fontWeight: "bold",

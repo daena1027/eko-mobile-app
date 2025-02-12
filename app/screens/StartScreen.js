@@ -12,7 +12,7 @@ export default function StartScreen({ navigation }) {
       <Logo />
       <Header>Welcome to EKO!</Header>
       <Paragraph style={{ textAlign: "center" }}>
-      A sustainibility app that challenges you to make a difference. 
+      
       </Paragraph>
       <Button
         mode="contained"

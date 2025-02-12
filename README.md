@@ -1,1 +1,0 @@
-# eko-mobile-app

@@ -12,7 +12,9 @@ import {
   ResetPasswordScreen,
   HomeScreen,
   LeaderboardScreen,
-  EducationalScreen
+  EducationalScreen,
+  SettingsScreen,
+  UserProfile,
 } from "./app/screens";
 
 const Tab = createBottomTabNavigator();
@@ -22,8 +24,10 @@ function BottomTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Learn More" component={EducationalStack} />
       <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
-      <Tab.Screen name="Educational" component={EducationalScreen} />
+      <Tab.Screen name="User Profile" component={UserProfile} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
@@ -31,26 +35,23 @@ function BottomTabs() {
 function EducationalStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Educational" component={EducationalScreen} />
-      <Stack.Screen name="Quiz" component={QuizScreen} />
+      <Stack.Screen name="EducationalScreen" component={EducationalScreen} />
+      <Stack.Screen name="QuizScreen" component={QuizScreen} />
     </Stack.Navigator>
   );
 }
-
 
 export default function App() {
   return (
     <Provider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{headerShown: false}}
-        >
+        <Stack.Navigator initialRouteName="StartScreen"screenOptions={{headerShown: false}}>
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          
+          <Stack.Screen name="ShortcutTabs" component={BottomTabs} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

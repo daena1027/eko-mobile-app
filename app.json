@@ -4,6 +4,7 @@
     "slug": "eko",
     "version": "2.0.0",
     "orientation": "portrait",
+    "newArchEnabled": true,
     "icon": "./assets/app.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -23,5 +24,6 @@
     "web": {
       "favicon": "./assets/app.png"
     }
+    
   }
 }

@@ -24,10 +24,7 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError });
       return;
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "HomeScreen" }],
-    });
+    navigation.replace("ShortcutTabs"); /*changed navigation.navigate("HomeScreen") to navigation.replace("ShortcutTabs")*/
   };
 
   return (

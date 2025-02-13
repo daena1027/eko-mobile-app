@@ -10,8 +10,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <Background>
       <Logo />
-      <Header>Welcome</Header>
-      <Paragraph>Congratulations you are logged in.</Paragraph>
+      <Header>Hello</Header>
       <Button
         mode="outlined"
         onPress={() =>
@@ -23,14 +22,7 @@ export default function HomeScreen({ navigation }) {
       >
         Sign out
       </Button>
-    <Button
-        mode="contained"
-        onPress={() =>
-          navigation.navigate("QuizScreen")
-        }
-      >
-        Start Quiz
-      </Button>
+    
     </Background>
   );
 }

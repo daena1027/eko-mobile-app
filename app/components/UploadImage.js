@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+
 export default function UploadImage() {
   const [image, setImage] = useState(null); // fix setImage - why is it declared and not used?
   const addImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.mediaTypes.Images,
+      mediaTypes: [ImagePicker.MediaType.IMAGE],
       allowsEditing: true,
       aspect: [4,3],
       quality: 1,
     });
+   
+    if (!_image.canceled) {
+        const { uri, type } = _image.assets[0];
+        if (type === 'image') {
+            setImage(uri);  
+        } else {
+            alert('Please select an image.');
+        }
+    }
+    
   };
   return (
             <View style={imageUploaderStyles.container}>

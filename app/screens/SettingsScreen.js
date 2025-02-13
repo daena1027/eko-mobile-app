@@ -3,7 +3,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import MaterialIcons from "expo-vector-icons/MaterialIcons";
+import {MaterialIcons} from "@expo/vector-icons";
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
@@ -48,7 +48,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: "bold",
+    marginTop: 30,
     marginBottom: 20,
+   
   },
   option: {
     flexDirection: "row",

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
-import Button from "../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar"; // Keep Expo's StatusBar if using Expo
 import UploadImage from "../components/UploadImage";
-import MaterialIcons from "expo-vector-icons/MaterialIcons";
+
 
 export default function UserProfile() {
   // State variables for user input

@@ -10,7 +10,7 @@ export default function EducationalScreen({navigation}) {
         <View style={styles.container}>
             <Header>Sustainability is cool!</Header>
             <Paragraph style={{textAlign: "center"}}>
-                Learn about the environment and how you can help save it.
+                Learn about the environment and how you can help protect it!
             </Paragraph>
             <Button mode="contained" onPress={() => navigation.navigate("QuizScreen")}>
                 Take Quiz
@@ -24,6 +24,7 @@ export default function EducationalScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: theme.colors.surface,
         flex: 1,
         justifyContent: "center",
         alignItems: "center",

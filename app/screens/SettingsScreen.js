@@ -4,6 +4,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {MaterialIcons} from "@expo/vector-icons";
+import { theme } from "../core/theme";
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
@@ -11,13 +12,7 @@ export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Settings</Text>
-
-      {/* Profile Settings */}
-      <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("EditProfile")}>
-        <MaterialIcons name="person" size={24} color="#4399E6" />
-        <Text style={styles.optionText}>Edit Profile</Text>
-      </TouchableOpacity>
-
+      
       {/* Notifications */}
       <TouchableOpacity style={styles.option}>
         <MaterialIcons name="notifications" size={24} color="#4399E6" />
@@ -42,7 +37,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.surface,
     padding: 20,
   },
   header: {

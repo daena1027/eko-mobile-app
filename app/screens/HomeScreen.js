@@ -11,17 +11,7 @@ export default function HomeScreen({ navigation }) {
     <Background>
       <Logo />
       <Header>Hello</Header>
-      <Button
-        mode="outlined"
-        onPress={() =>
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "StartScreen" }],
-          })
-        }
-      >
-        Sign out
-      </Button>
+      
     
     </Background>
   );

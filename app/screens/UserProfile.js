@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-nativ
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar"; // Keep Expo's StatusBar if using Expo
 import UploadImage from "../components/UploadImage";
-
+import { theme } from "../core/theme";
 
 export default function UserProfile() {
   // State variables for user input
@@ -84,7 +84,7 @@ export default function UserProfile() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.surface,
   },
   container: {
     padding: 50,

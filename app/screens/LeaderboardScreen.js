@@ -1,69 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { theme } from '../core/theme';
+import Leaderboard from "react-native-leaderboard";
+import { ScrollView } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const LeaderboardScreen = () => {
-    const [leaderboardData, setLeaderboardData] = useState([]);
-    
-    useEffect(() => {
-    // Fetch leaderboard data from an API or database
-    // Currently using mock data for testing. Will replace with real data fetching later.
-        const fetchData = async () => {
-            // Replace later with real data fetching
-            const data = [
-                { id: '1', name: 'User1', score: 100 },
-                { id: '2', name: 'User2', score: 90 },
-                { id: '3', name: 'User3', score: 80 },
-            ];
-            setLeaderboardData(data);
-        };
+export default function LeaderboardScreen() {
+    const [leaderboardData, setLeaderboardData] = useState([
+        { userName: 'Nat255', score: 100 },
+        { userName: 'Mike512', score: 90 },
+        { userName: 'earthlig653', score: 80 },
+        { userName: 'waterbender', score: 70 },
+        { userName: 'firebender', score: 60 },
+        { userName: 'airbender', score: 50 },
+        { userName: 'paperplane14653', score: 40 },
+        { userName: 'waterway52', score: 30 },
+        { userName: 'grassongrass451', score: 20 },
+        { userName: 'airnomad', score: 10 },
+    ]);
 
-        fetchData();
-    }, []);
+    const oddRowColor = '#FFFFFF';
+    const evenRowColor = '#4399E6';
 
-    const renderItem = ({ item }) => (
-        <View style={styles.item}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.score}>{item.score}</Text>
-        </View>
-    ); 
+    const renderRow = (item, index) => {
+        const rowColor = index % 2 === 0 ? evenRowColor : oddRowColor;
+
+            
+        return (
+            <View style={[styles.row, { backgroundColor: rowColor }]}>
+                <Text style={styles.rank}>{index + 1}</Text>
+                <Text style={styles.name}>{item.userName}</Text>
+                <Text style={styles.score}>{item.score}</Text>
+            </View>
+        );
+    };
     
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Leaderboard</Text>
-            <FlatList
+            <Leaderboard
                 data={leaderboardData}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-            />
+                sortBy='score'
+                labelBy='userName'
+                scoreBy='score'
+                oddRowColor={oddRowColor}
+                evenRowColor={evenRowColor} />
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor:theme.colors.surface,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginTop: 50,
+        marginBottom: 20,
+        textAlign: 'center',
     },
-    item: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
+ 
     name: {
         fontSize: 18,
     },
     score: {
         fontSize: 18,
     },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 20,
+    },
+    rank: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });
-
-export default LeaderboardScreen;

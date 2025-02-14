@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { theme } from '../core/theme';
 const quizData = [
   {
-    question: 'What is React?',
-    options: ['Library', 'Framework', 'Language'],
-    correctAnswer: 'Library',
+    question: "What is the greenhouse effect?", 
+    options: ["a process where greenhouse gases trap heat in the Earth's atmosphere", "a process that cools the Earth by releasing greenhouse gases", "a process that makes the Earth spin"],
+    correctAnswer: "a process where greenhouse gases trap heat in the Earth's atmosphere",
   },
   {
-    question: 'What is JavaScript?',
-    options: ['Library', 'Framework', 'Language'],
-    correctAnswer: 'Language',
+    question: "What are the main greenhouse gases contributing to climate change?",
+    options: ["Carbon dioxide, methane, nitrous oxide, and fluorinated gases", "Oxygen, nitrogen, argon, and carbon dioxide", "Water vapor, carbon dioxide, and oxygen"],
+    correctAnswer: "Carbon dioxide, methane, nitrous oxide, and fluorinated gases",
   },
+  {
+    question: "What is the main source of carbon dioxide emissions?",
+    options: ["Deforestation", "Burning fossil fuels like coal, oil, and gas", "Agriculture and livestock"],
+    correctAnswer: "Burning fossil fuels like coal, oil, and gas",
+  },
+  {
+    question: "What is the goal of the Paris Agreement?",
+    options: ["To promote the use of fossil fuels","To limit global warming to well below 2 degrees Celsius", "To increase greenhouse gas emissions"],
+    correctAnswer: "To limit global warming to well below 2 degrees Celsius",
+  },
+  {
+    question: "What are the three pillars of sustainability?",
+    options: ["Political, economic, and social", "Environmental, economic, and social sustainbiliy", "Environmental, technological, and economic"],
+    correctAnswer: "Environmental, economic, and social sustainbiliy",
+  }
 ];
 
 export default function QuizScreen({ navigation }) {
@@ -81,7 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: theme.colors.surface,
   },
   quizCard: {
     width: '80%',

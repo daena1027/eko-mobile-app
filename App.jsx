@@ -1,6 +1,7 @@
 import React from "react";
 import { Provider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { theme } from "./app/core/theme";
@@ -23,11 +24,41 @@ const Stack = createStackNavigator();
 function BottomTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Learn More" component={EducationalStack} />
-      <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
-      <Tab.Screen name="User Profile" component={UserProfile} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen 
+      name="Home" 
+      component={HomeScreen} 
+      options={{ 
+        tabBarIcon: () => <AntDesign name="home" size={24} color={theme.colors.primary} /> 
+      }}
+    /> 
+      <Tab.Screen 
+      name="Learn More" 
+      component={EducationalStack} 
+      options={{
+        tabBarIcon: () => <AntDesign name="book" size={24} color={theme.colors.primary} />
+      }}
+    />
+      <Tab.Screen 
+      name="Leaderboard" 
+      component={LeaderboardScreen} 
+      options={{
+        tabBarIcon: () => <AntDesign name="Trophy" size={24} color={theme.colors.primary} />
+      }}
+    />
+      <Tab.Screen 
+      name="User Profile" 
+      component={UserProfile} 
+      options={{
+        tabBarIcon: () => <AntDesign name="user" size={24} color={theme.colors.primary} />
+      }}
+      />
+      <Tab.Screen 
+      name="Settings" 
+      component={SettingsScreen} 
+      options={{
+        tabBarIcon: () => <AntDesign name="setting" size={24} color={theme.colors.primary} />
+      }}
+      />
     </Tab.Navigator>
   );
 }

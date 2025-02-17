@@ -4,8 +4,26 @@ import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function UploadImage() {
-  const [image, setImage] = useState(null); // fix setImage - why is it declared and not used?
+  const [image, setImage] = useState(null); 
+  const [hasPermission, setHasPermission] = useState(null); // Permission state
+// Function to check for camera roll permission
+  const  checkForCameraRollPermission=async()=>{
+    const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert("Please grant camera roll permissions inside your system's settings");
+      setHasPermission(false);
+    }else{
+      console.log('Media Permissions are granted')
+      setHasPermission(true);
+    }
+};
+// Function to add image 
   const addImage = async () => {
+    if (!hasPermission) {
+      alert ('Permission is required to access your gallery');
+        return;
+    }
+
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: [ImagePicker.MediaType.IMAGE],
       allowsEditing: true,
@@ -23,6 +41,13 @@ export default function UploadImage() {
     }
     
   };
+
+  // Check for camera roll permission 
+    useEffect(() => {
+        checkForCameraRollPermission();
+    }, []);
+
+// Return the image uploader component
   return (
             <View style={imageUploaderStyles.container}>
                 {
@@ -37,6 +62,7 @@ export default function UploadImage() {
             </View>
   );
 }
+// Styles for the image uploader component
 const imageUploaderStyles=StyleSheet.create({
     container:{
         elevation:2,

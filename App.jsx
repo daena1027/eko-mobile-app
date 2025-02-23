@@ -16,6 +16,7 @@ import {
   EducationalScreen,
   SettingsScreen,
   UserProfile,
+  ChatScreen,
 } from "./app/screens";
 
 const Tab = createBottomTabNavigator();
@@ -46,19 +47,13 @@ function BottomTabs() {
       }}
     />
       <Tab.Screen 
-      name="User Profile" 
-      component={UserProfile} 
-      options={{
-        tabBarIcon: () => <AntDesign name="user" size={24} color={theme.colors.primary} />
-      }}
-      />
-      <Tab.Screen 
       name="Settings" 
-      component={SettingsScreen} 
+      component={SettingsStack} 
       options={{
         tabBarIcon: () => <AntDesign name="setting" size={24} color={theme.colors.primary} />
       }}
       />
+   
     </Tab.Navigator>
   );
 }
@@ -71,6 +66,16 @@ function EducationalStack() {
     </Stack.Navigator>
   );
 }
+
+function SettingsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Stack.Screen name="UserProfile" component={UserProfile} />
+    </Stack.Navigator>
+  );
+}
+
 
 export default function App() {
   return (

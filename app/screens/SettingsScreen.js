@@ -12,6 +12,12 @@ export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Settings</Text>
+      <TouchableOpacity style={styles.option}
+        onPress={() => navigation.navigate("UserProfile")}
+        >
+        <MaterialIcons name="person" size={24} color="#4399E6" />
+        <Text style={styles.optionText}>Profile</Text>
+      </TouchableOpacity>
       
       {/* Notifications */}
       <TouchableOpacity style={styles.option}>

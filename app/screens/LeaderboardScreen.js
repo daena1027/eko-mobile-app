@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { theme } from '../core/theme';
-import Leaderboard from "react-native-leaderboard";
-import { ScrollView } from 'react-native-gesture-handler';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function LeaderboardScreen() {
     const [leaderboardData, setLeaderboardData] = useState([
@@ -19,33 +15,35 @@ export default function LeaderboardScreen() {
         { userName: 'airnomad', score: 10 },
     ]);
 
-    const oddRowColor = '#FFFFFF';
-    const evenRowColor = '#4399E6';
+    const getMedal = (rank) => {
+        if (rank === 1) {
+            return "🥇"; // Gold Medal
+        } else if (rank === 2) {
+            return "🥈"; // Silver Medal
+        } else if (rank === 3) {
+            return "🥉"; // Bronze Medal
+        } else {
+            return ""; // No medal for others
+        }
+    }
 
-    const renderRow = (item, index) => {
-        const rowColor = index % 2 === 0 ? evenRowColor : oddRowColor;
-
-            
-        return (
-            <View style={[styles.row, { backgroundColor: rowColor }]}>
-                <Text style={styles.rank}>{index + 1}</Text>
-                <Text style={styles.name}>{item.userName}</Text>
-                <Text style={styles.score}>{item.score}</Text>
-            </View>
-        );
-    };
-    
+    const getRowColor = (index) => {
+        return index % 2 === 0 ? '#f0f8ff' : '#ffffff'; // Alternate between light blue and white
+    }
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Leaderboard</Text>
-            <Leaderboard
-                data={leaderboardData}
-                sortBy='score'
-                labelBy='userName'
-                scoreBy='score'
-                oddRowColor={oddRowColor}
-                evenRowColor={evenRowColor} />
+            
+            {/* Loop through the leaderboard data and display the userName, score, and medals */}
+            {leaderboardData.map((item, index) => (
+                <View key={index} style={[styles.row, { backgroundColor: getRowColor(index) }]}>
+                    <Text style={styles.rank}>{index + 1}</Text>
+                    <Text style={styles.medal}>{getMedal(index + 1)}</Text>
+                    <Text style={styles.name}>{item.userName}</Text>
+                    <Text style={styles.score}>{item.score}</Text>
+                </View>
+            ))}
         </View>
     );
 }
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor:theme.colors.surface,
+        backgroundColor: 'white', // Light gray background
     },
     title: {
         fontSize: 24,
@@ -63,20 +61,29 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center',
     },
- 
-    name: {
-        fontSize: 18,
-    },
-    score: {
-        fontSize: 18,
-    },
     row: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20,
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
     },
     rank: {
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    name: {
+        fontSize: 18,
+        flex: 1,
+        textAlign: 'center',
+    },
+    score: {
+        fontSize: 18,
+    },
+    medal: {
+        fontSize: 26, 
+        textAlign: 'center',
+        width: 30,
     },
 });

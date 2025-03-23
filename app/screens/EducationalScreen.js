@@ -15,8 +15,8 @@ export default function EducationalScreen({navigation}) {
             <Button mode="contained" onPress={() => navigation.navigate("QuizScreen")}>
                 Take Quiz
             </Button>
-            <Button mode="outlined" onPress={() => navigation.navigate("ResourcesScreen")}>
-                Resources
+            <Button mode="outlined" onPress={() => navigation.navigate("VolunteerResourcesScreen")}>
+                Volunteer Resources
             </Button>
         </View>
     );

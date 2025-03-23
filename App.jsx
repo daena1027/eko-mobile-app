@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Provider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
@@ -16,8 +16,14 @@ import {
   EducationalScreen,
   SettingsScreen,
   UserProfile,
-  ChatScreen,
+  VolunteerResourcesScreen,
+  ChallengeScreen,
+  ChallengeProgressScreen,
+  
 } from "./app/screens";
+
+import { addChallengeData } from "./app/config/firebaseLogic";
+import { addVolunteerData } from "./app/config/firebaseLogic";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -30,6 +36,13 @@ function BottomTabs() {
       component={HomeScreen} 
       options={{ 
         tabBarIcon: () => <AntDesign name="home" size={24} color={theme.colors.primary} /> 
+      }}
+    /> 
+      <Tab.Screen
+      name="Challenges"
+      component={ChallengeStack}
+      options={{
+        tabBarIcon: () => <AntDesign name="star" size={24} color={theme.colors.primary} />
       }}
     /> 
       <Tab.Screen 
@@ -57,12 +70,20 @@ function BottomTabs() {
     </Tab.Navigator>
   );
 }
-
+function ChallengeStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ChallengeScreen" component={ChallengeScreen} />
+      <Stack.Screen name="ChallengeProgressScreen" component={ChallengeProgressScreen} />
+    </Stack.Navigator>
+  );
+}
 function EducationalStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="EducationalScreen" component={EducationalScreen} />
       <Stack.Screen name="QuizScreen" component={QuizScreen} />
+      <Stack.Screen name="VolunteerResourcesScreen" component={VolunteerResourcesScreen} />
     </Stack.Navigator>
   );
 }

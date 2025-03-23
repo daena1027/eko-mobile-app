@@ -8,3 +8,6 @@ export { default as EducationalScreen } from "./EducationalScreen";
 export { default as LeaderboardScreen } from "./LeaderboardScreen";
 export { default as SettingsScreen } from "./SettingsScreen";   
 export { default as UserProfile} from "./UserProfile";
+export { default as VolunteerResourcesScreen} from "./VolunteerResourcesScreen";
+export { default as ChallengeScreen } from "./ChallengeScreen";
+export { default as ChallengeProgressScreen } from "./ChallengeProgressScreen";

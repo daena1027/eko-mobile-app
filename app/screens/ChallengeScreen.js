@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator }
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { theme } from "../core/theme";
-import { db } from "../config/firebaseConfig"; // Adjust the path if needed
+import { db } from "../config/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function ChallengeScreen() {

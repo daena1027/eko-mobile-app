@@ -51,7 +51,7 @@ export default function LoginScreen({ navigation }) {
         onChangeText={(text) => setPassword({ value: text, error: "" })}
         error={!!password.error}
         errorText={password.error}
-        secureTextEntry
+        secureTextEntry 
       />
       
       <Button mode="contained" onPress={onLoginPressed}>

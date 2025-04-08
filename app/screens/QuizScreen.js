@@ -1,74 +1,90 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, Linking, Alert, StyleSheet } from 'react-native';
-import { Button, Card, ActivityIndicator } from 'react-native-paper';
+// /src/screens/QuizScreen.js
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { theme } from '../core/theme';
+import { db } from '../config/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
 
-// Static volunteer opportunities data
-const volunteerOpportunities = [
-  {
-    id: '1',
-    title: 'The Ocean Cleanup – Volunteer Program',
-    focus: 'Removing plastic pollution from oceans and rivers',
-    description: 'Assist with community cleanups, support research, and raise awareness about ocean conservation.',
-    website: 'https://theoceancleanup.com',
-  },
-  {
-    id: '2',
-    title: 'African Impact – Sustainable Development & Conservation',
-    focus: 'Wildlife conservation, community sustainability, and eco-tourism',
-    description: 'Work on protecting endangered species, sustainable farming, and environmental initiatives.',
-    website: 'https://africanimpact.com',
-  },
-  {
-    id: '3',
-    title: 'ECO-V – Sustainable Living and Climate Action',
-    focus: 'Sustainable agriculture, climate change awareness, and ecological restoration',
-    description: 'Help with tree planting, organic farming, and climate education programs.',
-    website: 'https://ecovlanka.org',
-  },
-];
+export default function QuizScreen() {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [disableOptions, setDisableOptions] = useState(false);
+  const [quizData, setQuizData] = useState([]); // State to store quiz data
 
-export default function VolunteerResourcesScreen({ navigation }) {
-  const [loading, setLoading] = useState(false);
+  // Function to handle answer selection
+  const handleAnswer = (selectedOption) => {
+    if (selectedOption === quizData[currentQuestion].correctAnswer) {
+      setScore(score + quizData[currentQuestion].points); // Add points for correct answer
+    }
 
-  // Handle opening URLs
-  const handleOpenURL = (url) => {
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          Alert.alert('Error', 'Cannot open URL');
-        }
-      })
-      .catch(() => Alert.alert('Error', 'Failed to open URL'));
+    // Move to the next question or complete the quiz
+    if (currentQuestion < quizData.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setQuizCompleted(true);
+      setDisableOptions(true);
+    }
   };
+
+  // Function to retake the quiz
+  const handleRetest = () => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setQuizCompleted(false);
+    setDisableOptions(false);
+  };
+
+  // Fetch quiz data from Firestore
+  useEffect(() => {
+    const fetchQuizData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "quizData"));
+        const fetchedData = [];
+        querySnapshot.forEach((doc) => {
+          fetchedData.push(doc.data());
+        });
+        setQuizData(fetchedData); // Set the fetched data to state
+      } catch (error) {
+        console.error("Error fetching quiz data: ", error);
+      }
+    };
+
+    fetchQuizData();
+  }, []); // Fetch data on component mount
 
   return (
     <View style={styles.container}>
-      {/* Title */}
-      <Text style={styles.title}>Volunteer Opportunities</Text>
-
-      {loading ? (
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      ) : (
-        <FlatList
-          data={volunteerOpportunities}  
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Card style={styles.card}>
-              <Card.Content>
-                <Text style={styles.cardTitle}>{item.title}</Text>
-                <Text style={styles.cardFocus}>{item.focus}</Text>
-                <Text style={styles.cardDescription}>{item.description}</Text>
-                <Button onPress={() => handleOpenURL(item.website)} mode="text" color={theme.colors.primary}>
-                  Visit Website
-                </Button>
-              </Card.Content>
-            </Card>
-          )}
-        />
-      )}
+      <View style={styles.quizCard}>
+        {quizData.length > 0 ? (
+          <>
+            {quizCompleted ? (
+              <View style={styles.completedSection}>
+                <Text style={styles.score}>Your Score: {score}</Text>
+                <TouchableOpacity style={styles.retestButton} onPress={handleRetest}>
+                  <Text style={styles.buttonText}>Retake Quiz</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.quizSection}>
+                <Text style={styles.question}>{quizData[currentQuestion].question}</Text>
+                {quizData[currentQuestion].options.map((option, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.option}
+                    onPress={() => handleAnswer(option)}
+                    disabled={disableOptions}
+                  >
+                    <Text style={styles.buttonText}>{option}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </>
+        ) : (
+          <Text>Loading quiz...</Text>
+        )}
+      </View>
     </View>
   );
 }
@@ -76,30 +92,55 @@ export default function VolunteerResourcesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
-    paddingHorizontal: 20,
     backgroundColor: 'white',
+    paddingTop: 30,
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
+  quizCard: {
+    width: '80%',
+    maxWidth: 400,
+    minHeight: 300,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: '#4399E6',
+    borderRadius: 15,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  question: {
+    fontSize: 18,
+  },
+  option: {
+    backgroundColor: '#4399E6',
+    padding: 10,
+    marginBottom: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+  },
+  score: {
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: theme.colors.text,
   },
-  card: {
-    marginBottom: 15,
-    backgroundColor: '#fff',
+  retestButton: {
+    backgroundColor: '#4399E6',
+    padding: 10,
+    alignItems: 'center',
   },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: theme.colors.text,
+  completedSection: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  cardFocus: {
-    fontStyle: 'italic',
-    color: theme.colors.text,
-  },
-  cardDescription: {
-    color: theme.colors.text,
+  quizSection: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

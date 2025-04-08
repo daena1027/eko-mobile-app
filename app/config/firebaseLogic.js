@@ -5,6 +5,7 @@ import { collection, addDoc } from "firebase/firestore"; // Firestore methods
 // Import challenge and volunteer data
 import { challengeData } from "./challengeData";
 import { volunteerData } from "./volunteerData";
+import { quizData } from "./quizData";
 
 // Function to add challenges to Firestore
 export const addChallengeData = async () => {
@@ -29,3 +30,14 @@ export const addVolunteerData = async () => {
     console.error("Error adding volunteer opportunities: ", error);
   }
 };
+
+export const addQuizData = async () => {
+  try {
+    for (let quiz of quizData) {
+      const docRef = await addDoc(collection(db, "quizData"), quiz);
+      console.log("Quiz added with ID: ", docRef.id);
+    }
+  } catch (error) {
+    console.error("Error adding quizzes: ", error);
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { theme } from "../core/theme";  // You can keep this if you want to use your custom theme colors
+import { theme } from "../core/theme";  
 
 export default function ChallengeProgressScreen() {
   const route = useRoute();
@@ -16,7 +16,7 @@ export default function ChallengeProgressScreen() {
     if (newStatus === "In Progress") {
       setIsStarted(true); // Challenge has started
     }
-    // Update the challenge status and points (you can also update the database here)
+    
     // For simplicity, we're just navigating back for now
     navigation.goBack();
   };

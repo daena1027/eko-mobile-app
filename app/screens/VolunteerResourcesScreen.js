@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Linking, Alert, StyleSheet } from 'react-native';
 import { Button, Card, ActivityIndicator } from 'react-native-paper';
 import { theme } from '../core/theme';
-import { db } from '../config/firebaseConfig';// Your Firebase configuration
+import { db } from "./firebaseConfig"; 
 import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
 
 export default function VolunteerResourcesScreen({ navigation }) {
@@ -13,8 +13,8 @@ export default function VolunteerResourcesScreen({ navigation }) {
     // Fetch volunteer data from Firestore
     const fetchVolunteerData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'volunteerData')); // Change collection name to 'volunteerData'
-        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })); // Map doc.id to id
+        const querySnapshot = await getDocs(collection(db, 'volunteerData')); 
+        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })); 
         setVolunteerOpportunities(data);
         console.log('Fetched Volunteer Opportunities:', data);
         setLoading(false);
@@ -27,6 +27,9 @@ export default function VolunteerResourcesScreen({ navigation }) {
     fetchVolunteerData();
   }, []);
   
+  const handleOpenURL = (url) => {
+    Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
+  };
 
   return (
     <View style={styles.container}>

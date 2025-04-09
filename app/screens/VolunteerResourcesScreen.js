@@ -2,34 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Linking, Alert, StyleSheet } from 'react-native';
 import { Button, Card, ActivityIndicator } from 'react-native-paper';
 import { theme } from '../core/theme';
-import { db } from "./firebaseConfig"; 
+import { db } from '../config/firebaseConfig'; // Import Firebase configuration
 import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
 
 export default function VolunteerResourcesScreen({ navigation }) {
-  const [loading, setLoading] = useState(true);
-  const [volunteerOpportunities, setVolunteerOpportunities] = useState([]);
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [volunteerOpportunities, setVolunteerOpportunities] = useState([]); // State to store volunteer opportunities
 
   useEffect(() => {
     // Fetch volunteer data from Firestore
     const fetchVolunteerData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'volunteerData')); 
-        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })); 
-        setVolunteerOpportunities(data);
-        console.log('Fetched Volunteer Opportunities:', data);
-        setLoading(false);
-      } catch (error) {
+        const querySnapshot = await getDocs(collection(db, 'volunteerData')); // Fetch data from the 'volunteerData' collection
+        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));  // Map to include document ID
+        setVolunteerOpportunities(data); // Set the fetched data to state
+        console.log('Fetched Volunteer Opportunities:', data); // Log the data for debugging
+        setLoading(false); // Set loading to false after data is fetched
+      } catch (error) { // Handle any errors
         console.error('Error fetching volunteer opportunities:', error);
-        setLoading(false);
+        setLoading(false); // Set loading to false even if there's an error
       }
     };
   
-    fetchVolunteerData();
+    fetchVolunteerData(); 
   }, []);
   
   const handleOpenURL = (url) => {
     Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
-  };
+  }; // Function to open URL in the device's browser
 
   return (
     <View style={styles.container}>

@@ -1,5 +1,4 @@
 export const quizData = [
-  
   {
     question: "What is the greenhouse effect?",
     options: [
@@ -301,6 +300,6 @@ export const quizData = [
       correctAnswer: "a",
       citation: "Wackernagel, M., & Rees, W. (1996). Our ecological footprint: Reducing human impact on the earth. New Society Publishers.",
       points: 18
-    }
+    },
   
 ];

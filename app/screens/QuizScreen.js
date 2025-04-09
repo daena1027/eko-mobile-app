@@ -1,38 +1,27 @@
-// /src/screens/QuizScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { theme } from '../core/theme';
 import { db } from '../config/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore'; // Firestore methods
+import { quizData } from '../config/quizData'; // Local static quiz data
 
 export default function QuizScreen() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [disableOptions, setDisableOptions] = useState(false);
-  const [quizData, setQuizData] = useState([]); // State to store quiz data
+  const [fetchedQuizData, setFetchedQuizData] = useState([]); // State for fetched data
 
-  // Function to handle answer selection
-  const handleAnswer = (selectedOption) => {
-    if (selectedOption === quizData[currentQuestion].correctAnswer) {
-      setScore(score + quizData[currentQuestion].points); // Add points for correct answer
+  // Function to upload quiz data to Firestore
+  const uploadQuizData = async () => {
+    try {
+      const quizCollection = collection(db, "quizData"); // Reference to Firestore collection
+      for (let i = 0; i < quizData.length; i++) {
+        await addDoc(quizCollection, quizData[i]);
+      }
+      console.log("Quiz data uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading quiz data: ", error);
     }
-
-    // Move to the next question or complete the quiz
-    if (currentQuestion < quizData.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setQuizCompleted(true);
-      setDisableOptions(true);
-    }
-  };
-
-  // Function to retake the quiz
-  const handleRetest = () => {
-    setCurrentQuestion(0);
-    setScore(0);
-    setQuizCompleted(false);
-    setDisableOptions(false);
   };
 
   // Fetch quiz data from Firestore
@@ -44,19 +33,42 @@ export default function QuizScreen() {
         querySnapshot.forEach((doc) => {
           fetchedData.push(doc.data());
         });
-        setQuizData(fetchedData); // Set the fetched data to state
+        setFetchedQuizData(fetchedData); // Set fetched data to state
       } catch (error) {
         console.error("Error fetching quiz data: ", error);
       }
     };
 
     fetchQuizData();
-  }, []); // Fetch data on component mount
+  }, []); // Fetch data when component mounts
+
+  // Handle answer selection
+  const handleAnswer = (selectedOption) => {
+    if (selectedOption === fetchedQuizData[currentQuestion].correctAnswer) {
+      setScore(score + fetchedQuizData[currentQuestion].points); // Add points for correct answer
+    }
+
+    // Move to next question or complete quiz
+    if (currentQuestion < fetchedQuizData.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setQuizCompleted(true);
+      setDisableOptions(true);
+    }
+  };
+
+  // Handle retaking the quiz
+  const handleRetest = () => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setQuizCompleted(false);
+    setDisableOptions(false);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.quizCard}>
-        {quizData.length > 0 ? (
+        {fetchedQuizData.length > 0 ? (
           <>
             {quizCompleted ? (
               <View style={styles.completedSection}>
@@ -67,8 +79,8 @@ export default function QuizScreen() {
               </View>
             ) : (
               <View style={styles.quizSection}>
-                <Text style={styles.question}>{quizData[currentQuestion].question}</Text>
-                {quizData[currentQuestion].options.map((option, index) => (
+                <Text style={styles.question}>{fetchedQuizData[currentQuestion].question}</Text>
+                {fetchedQuizData[currentQuestion].options.map((option, index) => (
                   <TouchableOpacity
                     key={index}
                     style={styles.option}
@@ -85,6 +97,11 @@ export default function QuizScreen() {
           <Text>Loading quiz...</Text>
         )}
       </View>
+
+      {/* Button to upload quiz data */}
+      <TouchableOpacity style={styles.uploadButton} onPress={uploadQuizData}>
+        <Text style={styles.buttonText}>Upload Quiz Data</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -94,6 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingTop: 30,
+    justifyContent: "center",
     alignItems: 'center',
     paddingHorizontal: 20,
   },
@@ -142,5 +160,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  uploadButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    marginVertical: 20,
+    borderRadius: 10,
   },
 });

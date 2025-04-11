@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 10,
-    color: "#2c7a7b", // Change to a color that fits your app
+    color: "#2c7a7b", 
     textAlign: "center",
   },
   buttonContainer: {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { db } from '../config/firebaseConfig';
-import { collection, getDocs, addDoc } from 'firebase/firestore'; // Firestore methods
+import { collection, getDocs } from 'firebase/firestore'; // Firestore methods
 import { quizData } from '../config/quizData'; // Local static quiz data
 
 export default function QuizScreen() {
@@ -11,17 +11,13 @@ export default function QuizScreen() {
   const [disableOptions, setDisableOptions] = useState(false);
   const [fetchedQuizData, setFetchedQuizData] = useState([]); // State for fetched data
 
-  // Function to upload quiz data to Firestore
-  const uploadQuizData = async () => {
-    try {
-      const quizCollection = collection(db, "quizData"); // Reference to Firestore collection
-      for (let i = 0; i < quizData.length; i++) {
-        await addDoc(quizCollection, quizData[i]);
-      }
-      console.log("Quiz data uploaded successfully!");
-    } catch (error) {
-      console.error("Error uploading quiz data: ", error);
+  // Fisher-Yates shuffle function to randomize quiz questions
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
     }
+    return array;
   };
 
   // Fetch quiz data from Firestore
@@ -33,6 +29,11 @@ export default function QuizScreen() {
         querySnapshot.forEach((doc) => {
           fetchedData.push(doc.data());
         });
+
+        const shuffled = shuffleArray(fetchedData); // Shuffle the fetched data
+        const selected = shuffled.slice(0, 10); // Select first 10 questions
+        setFetchedQuizData(selected); // Set the selected questions to state
+        console.log("Fetched Quiz Data: ", selected); // Log the fetched data for debugging
         setFetchedQuizData(fetchedData); // Set fetched data to state
       } catch (error) {
         console.error("Error fetching quiz data: ", error);
@@ -65,6 +66,11 @@ export default function QuizScreen() {
     setDisableOptions(false);
   };
 
+  // Function to transform options object to array
+  const getOptions = (options) => {
+    return Object.entries(options).map(([key, value]) => ({ key, value }));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.quizCard}>
@@ -80,14 +86,14 @@ export default function QuizScreen() {
             ) : (
               <View style={styles.quizSection}>
                 <Text style={styles.question}>{fetchedQuizData[currentQuestion].question}</Text>
-                {fetchedQuizData[currentQuestion].options.map((option, index) => (
+                {getOptions(fetchedQuizData[currentQuestion].options).map((option, index) => (
                   <TouchableOpacity
                     key={index}
                     style={styles.option}
-                    onPress={() => handleAnswer(option)}
+                    onPress={() => handleAnswer(option.key)}
                     disabled={disableOptions}
                   >
-                    <Text style={styles.buttonText}>{option}</Text>
+                    <Text style={styles.buttonText}>{option.value}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -97,11 +103,6 @@ export default function QuizScreen() {
           <Text>Loading quiz...</Text>
         )}
       </View>
-
-      {/* Button to upload quiz data */}
-      <TouchableOpacity style={styles.uploadButton} onPress={uploadQuizData}>
-        <Text style={styles.buttonText}>Upload Quiz Data</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -111,12 +112,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingTop: 30,
-    justifyContent: "center",
+    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
   },
   quizCard: {
-    width: '80%',
+    width: '100%',
     maxWidth: 400,
     minHeight: 300,
     padding: 20,
@@ -126,20 +127,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexShrink: 1, // Allow shrinking of the card if needed
+    overflow: 'hidden', // Prevent content from overflowing
   },
   question: {
     fontSize: 18,
+    marginBottom: 15,
+    textAlign: 'center',
+    flexWrap: 'wrap', // Allow text to wrap if it's too long
   },
   option: {
     backgroundColor: '#4399E6',
-    padding: 10,
-    marginBottom: 10,
+    padding: 12,
+    marginBottom: 12,
     width: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    flexShrink: 1, // Allow options to shrink if needed
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
+    textAlign: 'center',
   },
   score: {
     fontSize: 18,
@@ -160,11 +170,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
   },
-  uploadButton: {
-    backgroundColor: 'green',
-    padding: 10,
-    marginVertical: 20,
-    borderRadius: 10,
+  scrollableContent: {
+    flex: 1,
+    width: '100%',
+    paddingVertical: 10,
   },
 });
+

@@ -213,5 +213,39 @@ export const quizData = [
     correctAnswer: "a",
     points: 15,
     citation: "Rennings, K. (2000)... https://doi.org/10.1016/S0921-8009(99)00112-5"
+  },
+  {
+    question: "What is an endangered species?",
+    options: {
+      a: "A species classified as at risk of extinction due to declining population numbers or habitat loss.",
+      b: "A species that is thriving and expanding its range and is immune to environmental changes.",
+      c: "A species that is only found in zoos due to expansion."
+    },
+    correctAnswer: "a",
+    points: 20,
+    citation: "IUCN. (2021)... https://www.iucnredlist.org/"
+  },
+  {
+    question: "What are the challenges associated with solar energy?",
+    options: {
+      a: "It is always cheaper than fossil fuels and has no environmental impact.",
+      b: "Not weatherproof and has to be moved indoors during rainstorms and the winter.",
+      c: "High initial installation costs, dependence on weather conditions, and energy storage limitations."
+    },
+    correctAnswer: "c",
+    points: 25,
+    citation: "Huld, T. A., et al. (2012). Solar energy production and environmental impacts. Renewable and Sustainable Energy Reviews, 16(5), 4154-4163. https://doi.org/10.1016/j.rser.2012.03.022"
+  },
+  {
+    question: "How is sustainability measured?",
+    options: {
+      a: "Sustainability is not measurable.",
+      b: "Using the Human Development Index (HDI), Environmental Performance Index (EPI), and carbon footprint assessments.",
+      c: "Measured using the Electric Vehicles (EV) vs. Public Transit Index (EVPTI) and the Human Development Index (HDI)."
+    },
+    correctAnswer: "b",
+    points: 30,
+    citation: "Hák, T., et al. (2016). Sustainable development goals: A need for relevant indicators. Sustainable Development, 24(1), 3-14. https://doi.org/10.1002/sd.1589"
   }
+
 ];

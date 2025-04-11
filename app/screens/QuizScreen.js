@@ -44,8 +44,9 @@ export default function QuizScreen() {
   }, []); // Fetch data when component mounts
 
   // Handle answer selection
-  const handleAnswer = (selectedOption) => {
-    if (selectedOption === fetchedQuizData[currentQuestion].correctAnswer) {
+  const handleAnswer = (selectedOption) => { 
+    if (selectedOption === fetchedQuizData[currentQuestion].correctAnswer) { // Check if the answer is correct
+      setDisableOptions(true); // Disable options after selection
       setScore(score + fetchedQuizData[currentQuestion].points); // Add points for correct answer
     }
 

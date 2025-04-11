@@ -27,12 +27,6 @@ export default function QuizScreen() {
     const fetchQuizData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "quizData")); // Fetch data from Firestore
-        if (querySnapshot.empty) {
-          console.log("No quiz data found in Firestore. Using static data.");
-          setFetchedQuizData(quizData); // Use local static data if Firestore is empty
-          return;
-        }
-        // If data exists, process it
         const fetchedData = []; // Array to hold fetched data
         querySnapshot.forEach((doc) => { 
           fetchedData.push(doc.data()); 
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
   quizCard: {
     width: '100%',
     maxWidth: 400,
-    minHeight: 300,
+    minHeight: 375,
     padding: 20,
     borderWidth: 2,
     borderColor: '#4399E6',
@@ -147,18 +141,22 @@ const styles = StyleSheet.create({
   },
   option: {
     backgroundColor: '#4399E6',
-    padding: 12,
+    padding: 15,
     marginBottom: 12,
     width: '100%',
+    borderRadius: 5,
+    flexWrap: 'wrap', // Allow text to wrap if it's too long
+    overflow: 'hidden', // Prevent content from overflowing
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
-    flexShrink: 1, // Allow options to shrink if needed
+    textAlign: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
     textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   score: {
     fontSize: 18,

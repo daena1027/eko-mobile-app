@@ -13,21 +13,29 @@ export default function QuizScreen() {
 
   // Fisher-Yates shuffle function to randomize quiz questions
   const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+    for (let i = array.length - 1; i > 0; i--) { // Randomize the array
+      // Generate a random index between 0 and i
+      const j = Math.floor(Math.random() * (i + 1)); // Random index
+      // Swap elements at indices i and j
       [array[i], array[j]] = [array[j], array[i]]; // Swap elements
     }
-    return array;
+    return array; // Return the shuffled array
   };
 
   // Fetch quiz data from Firestore
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "quizData"));
-        const fetchedData = [];
-        querySnapshot.forEach((doc) => {
-          fetchedData.push(doc.data());
+        const querySnapshot = await getDocs(collection(db, "quizData")); // Fetch data from Firestore
+        if (querySnapshot.empty) {
+          console.log("No quiz data found in Firestore. Using static data.");
+          setFetchedQuizData(quizData); // Use local static data if Firestore is empty
+          return;
+        }
+        // If data exists, process it
+        const fetchedData = []; // Array to hold fetched data
+        querySnapshot.forEach((doc) => { 
+          fetchedData.push(doc.data()); 
         });
 
         const shuffled = shuffleArray(fetchedData); // Shuffle the fetched data
@@ -51,11 +59,11 @@ export default function QuizScreen() {
     }
 
     // Move to next question or complete quiz
-    if (currentQuestion < fetchedQuizData.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setQuizCompleted(true);
-      setDisableOptions(true);
+    if (currentQuestion < fetchedQuizData.length - 1) { // Check if there are more questions
+      setCurrentQuestion(currentQuestion + 1); // Move to next question
+    } else { // If no more questions, complete the quiz
+      setQuizCompleted(true); // Set quiz as completed
+      setDisableOptions(true); // Disable options
     }
   };
 

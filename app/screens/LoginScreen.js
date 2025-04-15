@@ -12,17 +12,18 @@ import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 
+//import statements for emailValidator and passwordValidator
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
+  const [email, setEmail] = useState({ value: "", error: "" }); /* email state*/
+  const [password, setPassword] = useState({ value: "", error: "" }); /* password state*/
 
-  const onLoginPressed = () => {
-    const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
-      return;
+  const onLoginPressed = () => { /*function to handle login button press*/
+    const emailError = emailValidator(email.value); /*emailError variable*/
+    const passwordError = passwordValidator(password.value); /* passwordError variable*/
+    if (emailError || passwordError) { /*if statement to check for errors in email and password*/
+      setEmail({ ...email, error: emailError }); /*setEmail state updater function*/
+      setPassword({ ...password, error: passwordError }); /* setPassword state updater function*/
+      return; /* return statement to stop the function if there are errors*/
     }
     navigation.replace("ShortcutTabs"); /*changed navigation.navigate("HomeScreen") to navigation.replace("ShortcutTabs")*/
   };

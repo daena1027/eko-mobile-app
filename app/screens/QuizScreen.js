@@ -4,11 +4,12 @@ import { db } from '../config/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore'; // Firestore methods
 import { quizData } from '../config/quizData'; // Local static quiz data
 
-export default function QuizScreen() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const [disableOptions, setDisableOptions] = useState(false);
+export default function QuizScreen() { // QuizScreen component
+  // State variables for quiz
+  const [currentQuestion, setCurrentQuestion] = useState(0); // Current question index
+  const [score, setScore] = useState(0); // User score
+  const [quizCompleted, setQuizCompleted] = useState(false); // Quiz completion status
+  const [disableOptions, setDisableOptions] = useState(false); // Disable options after selection
   const [fetchedQuizData, setFetchedQuizData] = useState([]); // State for fetched data
 
   // Fisher-Yates shuffle function to randomize quiz questions
@@ -38,12 +39,12 @@ export default function QuizScreen() {
         console.log("Fetched Quiz Data: ", selected); // Log the fetched data for debugging
         setFetchedQuizData(fetchedData); // Set fetched data to state
       } catch (error) {
-        console.error("Error fetching quiz data: ", error);
+        console.error("Error fetching quiz data: ", error); // Log error if fetching fails
       }
     };
 
     fetchQuizData();
-  }, []); // Fetch data when component mounts
+  }, []); // Fetch data 
 
   // Handle answer selection
   const handleAnswer = (selectedOption) => { 
@@ -63,47 +64,48 @@ export default function QuizScreen() {
 
   // Handle retaking the quiz
   const handleRetest = () => {
-    setCurrentQuestion(0);
-    setScore(0);
-    setQuizCompleted(false);
-    setDisableOptions(false);
+    setCurrentQuestion(0); // Reset current question to 0
+    setScore(0); // Reset score to 0
+    setQuizCompleted(false); // Set quiz as not completed
+    setDisableOptions(false); // Enable options again
   };
 
   // Function to transform options object to array
   const getOptions = (options) => {
-    return Object.entries(options).map(([key, value]) => ({ key, value }));
+    return Object.entries(options).map(([key, value]) => ({ key, value })); 
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.quizCard}>
-        {fetchedQuizData.length > 0 ? (
+  // Display the quiz card with question and options
+  return ( 
+    <View style={styles.container}> {/* Main container for the quiz screen */}
+      <View style={styles.quizCard}> {/* Card for displaying quiz question and options */}
+        {fetchedQuizData.length > 0 ? ( // Check if quiz data is available
           <>
-            {quizCompleted ? (
-              <View style={styles.completedSection}>
+            {quizCompleted ? ( // If quiz is completed, show score and retake button
+              <View style={styles.completedSection}> 
                 <Text style={styles.score}>Your Score: {score}</Text>
                 <TouchableOpacity style={styles.retestButton} onPress={handleRetest}>
                   <Text style={styles.buttonText}>Retake Quiz</Text>
                 </TouchableOpacity>
               </View>
             ) : (
-              <View style={styles.quizSection}>
-                <Text style={styles.question}>{fetchedQuizData[currentQuestion].question}</Text>
-                {getOptions(fetchedQuizData[currentQuestion].options).map((option, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.option}
-                    onPress={() => handleAnswer(option.key)}
-                    disabled={disableOptions}
+              <View style={styles.quizSection}> 
+                <Text style={styles.question}>{fetchedQuizData[currentQuestion].question}</Text> {/* Display current question */}
+                {getOptions(fetchedQuizData[currentQuestion].options).map((option, index) => ( // Map through options and display them
+                  <TouchableOpacity 
+                    key={index} // Option key
+                    style={styles.option} // Option button style
+                    onPress={() => handleAnswer(option.key)} // Handle answer selection
+                    disabled={disableOptions} // Disable options if selected
                   >
-                    <Text style={styles.buttonText}>{option.value}</Text>
-                  </TouchableOpacity>
+                    <Text style={styles.buttonText}>{option.value}</Text> {/* Display option value */}
+                  </TouchableOpacity> 
                 ))}
               </View>
             )}
           </>
         ) : (
-          <Text>Loading quiz...</Text>
+          <Text>Loading quiz...</Text> 
         )}
       </View>
     </View>

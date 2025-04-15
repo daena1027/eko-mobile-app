@@ -8,16 +8,16 @@ import TextInput from "../components/TextInput";
 import Button from "../components/Button";
 import { emailValidator } from "../helpers/emailValidator";
 
-export default function ResetPasswordScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: "", error: "" });
+export default function ResetPasswordScreen({ navigation }) { 
+  const [email, setEmail] = useState({ value: "", error: "" }); /* email state*/
 
-  const sendResetPasswordEmail = () => {
-    const emailError = emailValidator(email.value);
-    if (emailError) {
-      setEmail({ ...email, error: emailError });
-      return;
+  const sendResetPasswordEmail = () => { /*function to handle reset password button press*/
+    const emailError = emailValidator(email.value); /*emailError variable*/
+    if (emailError) { /*if statement to check for errors in email*/
+      setEmail({ ...email, error: emailError }); /*setEmail state updater function*/
+      return; 
     }
-    navigation.navigate("LoginScreen");
+    navigation.navigate("LoginScreen"); /*navigation to LoginScreen after successful reset password*/
   };
 
   return (

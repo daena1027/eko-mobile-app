@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function LeaderboardScreen() {
+export default function LeaderboardScreen() { 
     const [leaderboardData, setLeaderboardData] = useState([
         { userName: 'Nat255', score: 100 },
         { userName: 'Mike512', score: 90 },
@@ -37,11 +37,11 @@ export default function LeaderboardScreen() {
             
             {/* Loop through the leaderboard data and display the userName, score, and medals */}
             {leaderboardData.map((item, index) => (
-                <View key={index} style={[styles.row, { backgroundColor: getRowColor(index) }]}>
-                    <Text style={styles.rank}>{index + 1}</Text>
-                    <Text style={styles.medal}>{getMedal(index + 1)}</Text>
-                    <Text style={styles.name}>{item.userName}</Text>
-                    <Text style={styles.score}>{item.score}</Text>
+                <View key={index} style={[styles.row, { backgroundColor: getRowColor(index) }]}> {/* Alternate row colors */}
+                    <Text style={styles.rank}>{index + 1}</Text> {/* Display rank */}
+                    <Text style={styles.medal}>{getMedal(index + 1)}</Text> {/* Display medal based on rank */}
+                    <Text style={styles.name}>{item.userName}</Text> {/* Display userName */}
+                    <Text style={styles.score}>{item.score}</Text> {/* Display score */}
                 </View>
             ))}
         </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: 'white', // Light gray background
+        backgroundColor: 'white', 
     },
     title: {
         fontSize: 24,

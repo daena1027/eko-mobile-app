@@ -1,6 +1,6 @@
 # EKO App 🌱
 
-EKO App is a sustainability-focused mobile application built with React Native and Expo. It encourages users to take on eco-friendly challenges, test their knowledge with fun quizzes, and explore volunteer opportunities to make a positive impact on the planet. Whether it's reducing plastic use, saving water, or planting trees, Eko App helps you take small steps toward a greener future.
+EKO App is a sustainability-focused mobile application built with React Native and Expo. It encourages users to take on eco-friendly challenges, test their knowledge with fun quizzes, and explore volunteer opportunities to make a positive impact on the planet. Whether it's reducing plastic use, saving water, or planting trees, EKO App helps you take small steps toward a greener future.
 
 ![App Screenshot](assets/screenshot/snap.png)
 

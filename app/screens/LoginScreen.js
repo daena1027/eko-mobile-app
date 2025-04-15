@@ -31,7 +31,7 @@ export default function LoginScreen({ navigation }) {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Welcome!</Header> {/* Update the header from the source code "hello." to "Welcome!*/}
+      <Header>Welcome!</Header> 
       <TextInput
         label="Email"
         returnKeyType="next"
